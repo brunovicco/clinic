@@ -6,4 +6,3 @@ uvicorn==0.24.0
 python-multipart==0.0.6
 requests==2.32.3
 httpx==0.26.0
-dotenv==0.0.5

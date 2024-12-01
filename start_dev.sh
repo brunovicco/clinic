@@ -2,34 +2,24 @@
 
 echo "🚀 Iniciando ambiente de desenvolvimento..."
 
-# Mata processos existentes
-echo "🧹 Limpando processos anteriores..."
-pkill -f ngrok
-pkill -f uvicorn
-pkill -f python
-sleep 2
+# Configura o ngrok
+if [ ! -z "$NGROK_AUTHTOKEN" ]; then
+    echo "🔑 Configurando token do ngrok..."
+    ngrok config add-authtoken $NGROK_AUTHTOKEN
+fi
 
-# Ativa ambiente virtual
-source venv/bin/activate
-
-# Inicia ngrok
+# Inicia ngrok em background
 echo "🌐 Iniciando ngrok..."
-python src/utils/setup_ngrok.py &
+ngrok http --log=stdout 8000 &
 NGROK_PID=$!
 
 # Aguarda ngrok inicializar
 echo "⏳ Aguardando ngrok inicializar..."
 sleep 10
 
-# Verifica se ngrok está rodando
-if ! curl -s http://localhost:4040/api/tunnels > /dev/null; then
-    echo "❌ Falha ao iniciar ngrok"
-    exit 1
-fi
-
 # Inicia aplicação
 echo "🚀 Iniciando aplicação..."
 python src/main.py
 
 # Limpa ao sair
-trap 'echo "⏹️ Encerrando processos..."; kill $NGROK_PID' EXIT
+trap 'kill $NGROK_PID' EXIT

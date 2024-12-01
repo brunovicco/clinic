@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  clinic-bot:
+    build: .
+    ports:
+      - "8000:8000"
+      - "4040:4040"
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    environment:
+      - ENVIRONMENT=development
+      - WEBHOOK_VERIFY_TOKEN=${WEBHOOK_VERIFY_TOKEN}
+      - WHATSAPP_TOKEN=${WHATSAPP_TOKEN}
+      - WHATSAPP_PHONE_NUMBER_ID=${WHATSAPP_PHONE_NUMBER_ID}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}  # Adicionado
+    command: ./start_dev.sh
