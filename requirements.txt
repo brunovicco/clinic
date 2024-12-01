@@ -1,0 +1,9 @@
+python-dotenv==1.0.0
+whatsapp-cloud-api>=0.0.4
+anthropic==0.8.1
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+requests==2.32.3
+httpx==0.26.0
+dotenv==0.0.5
